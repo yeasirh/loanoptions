@@ -1,9 +1,48 @@
 import "./App.css";
+import { useState } from "react";
+import { Button, Table } from "@mantine/core";
 
 function App() {
+	const [data, setData] = useState([]);
+
+	const fetchData = () => {
+		fetch(`http://universities.hipolabs.com/search?country=Australia`)
+			.then((response) => response.json())
+			.then((actualData) => {
+				console.log(actualData);
+				setData(actualData);
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
+	};
+
 	return (
 		<div className="App">
-			<p>Hello world</p>
+			<Button onClick={fetchData}>Load</Button>
+
+			<Table>
+				<thead>
+					<tr>
+						<th>alpha_two_code</th>
+						<th>country</th>
+						<th>domains</th>
+						<th>name</th>
+						<th>web_pages</th>
+					</tr>
+				</thead>
+				<tbody>
+					{data.map((item, index) => (
+						<tr key={index}>
+							<td>{item.alpha_two_code}</td>
+							<td>{item.country}</td>
+							<td>{item.domains}</td>
+							<td>{item.name}</td>
+							<td>{item.web_pages}</td>
+						</tr>
+					))}
+				</tbody>
+			</Table>
 		</div>
 	);
 }
