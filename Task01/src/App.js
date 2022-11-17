@@ -18,11 +18,7 @@ function App() {
 	};
 
 	const deleteData = () => {
-		const tempdata = data.pop();
-		setData(data);
-		console.log(tempdata);
-		console.log(data);
-		console.log("delete button pressed");
+		setData(data.slice(0, -1));
 	};
 
 	return (
