@@ -17,9 +17,20 @@ function App() {
 			});
 	};
 
+	const deleteData = () => {
+		const tempdata = data.pop();
+		setData(data);
+		console.log(tempdata);
+		console.log(data);
+		console.log("delete button pressed");
+	};
+
 	return (
 		<div className="App">
 			<Button onClick={fetchData}>Load</Button>
+			<Button color="red" onClick={deleteData}>
+				Delete
+			</Button>
 
 			<Table>
 				<thead>
