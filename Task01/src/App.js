@@ -9,7 +9,6 @@ function App() {
 		fetch(`http://universities.hipolabs.com/search?country=Australia`)
 			.then((response) => response.json())
 			.then((actualData) => {
-				console.log(actualData);
 				setData(actualData);
 			})
 			.catch((err) => {
@@ -21,11 +20,18 @@ function App() {
 		setData(data.slice(0, -1));
 	};
 
+	const addData = () => {
+		setData([...data, data[0]]);
+	};
+
 	return (
 		<div className="App">
 			<Button onClick={fetchData}>Load</Button>
 			<Button color="red" onClick={deleteData}>
 				Delete
+			</Button>
+			<Button color="green" onClick={addData}>
+				Add
 			</Button>
 
 			<Table>
