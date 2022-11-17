@@ -1,5 +1,10 @@
 <?php
 
+$category = $argv[1];
+$limit = $argv[2];
+
+var_dump($category, $limit);
+die();
 $url = 'https://api.publicapis.org/entries';
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
