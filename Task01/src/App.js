@@ -1,18 +1,29 @@
 import "./App.css";
 import { useState } from "react";
-import { Button, Table } from "@mantine/core";
+import { Button, Table, Group } from "@mantine/core";
+
+const API_URL = `http://universities.hipolabs.com/search?country=Australia`;
 
 function App() {
 	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	const fetchData = () => {
-		fetch(`http://universities.hipolabs.com/search?country=Australia`)
+		setData([]);
+		setLoading(true);
+		setError(false);
+		fetch(API_URL)
 			.then((response) => response.json())
 			.then((actualData) => {
 				setData(actualData);
 			})
 			.catch((err) => {
+				setError(true);
 				console.log(err.message);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
@@ -26,36 +37,43 @@ function App() {
 
 	return (
 		<div className="App">
-			<Button onClick={fetchData}>Load</Button>
-			<Button color="red" onClick={deleteData}>
-				Delete
-			</Button>
-			<Button color="green" onClick={addData}>
-				Add
-			</Button>
-
-			<Table>
-				<thead>
-					<tr>
-						<th>alpha_two_code</th>
-						<th>country</th>
-						<th>domains</th>
-						<th>name</th>
-						<th>web_pages</th>
-					</tr>
-				</thead>
-				<tbody>
-					{data.map((item, index) => (
-						<tr key={index}>
-							<td>{item.alpha_two_code}</td>
-							<td>{item.country}</td>
-							<td>{item.domains}</td>
-							<td>{item.name}</td>
-							<td>{item.web_pages}</td>
+			<Group mt="xl" className="buttons">
+				<Button onClick={fetchData}>Load</Button>
+				<Button color="red" onClick={deleteData}>
+					Delete
+				</Button>
+				<Button color="green" onClick={addData}>
+					Add
+				</Button>
+			</Group>
+			{loading && <h1>Loading...</h1>}
+			{error && <h1>Something bad happend...</h1>}
+			{data.length !== 0 && (
+				<Table>
+					<thead>
+						<tr>
+							<th>Alpha Two Code</th>
+							<th>Country</th>
+							<th>Domains</th>
+							<th>Name</th>
+							<th>Web Pages</th>
+							<th>State Province</th>
 						</tr>
-					))}
-				</tbody>
-			</Table>
+					</thead>
+					<tbody>
+						{data.map((item, index) => (
+							<tr key={index}>
+								<td>{item.alpha_two_code}</td>
+								<td>{item.country}</td>
+								<td>{item.domains}</td>
+								<td>{item.name}</td>
+								<td>{item.web_pages}</td>
+								<td>{item["state-province"]}</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			)}
 		</div>
 	);
 }
