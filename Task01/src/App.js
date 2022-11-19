@@ -38,11 +38,13 @@ function App() {
 	return (
 		<div className="App">
 			<Group mt="xl" className="buttons">
-				<Button onClick={fetchData}>Load</Button>
-				<Button color="red" onClick={deleteData}>
+				<Button onClick={fetchData} data-testid="loadBt">
+					Load
+				</Button>
+				<Button color="red" onClick={deleteData} data-testid="deleteBt">
 					Delete
 				</Button>
-				<Button color="green" onClick={addData}>
+				<Button color="green" onClick={addData} data-testid="addBt">
 					Add
 				</Button>
 			</Group>

@@ -1,9 +1,14 @@
 <?php
-const ENTRIES = 'entries';
-const CATEGORY = 'Category';
-const API = 'API';
+const KEY_ENTRIES = 'entries';
+const KEY_CATEGORY = 'Category';
+const KEY_API = 'API';
 
 $url = 'https://api.publicapis.org/entries';
+
+if(count($argv) != 3){
+    echo 'Please provide category and limit'.PHP_EOL;
+    return;
+}
 
 $category = ucfirst($argv[1]);
 $limit = $argv[2];
@@ -48,7 +53,7 @@ function checkArgument($category, $limit){
 }
 
 function printOutput($category, $limit, $response){
-    $responseCategory = array_column($response[ENTRIES], CATEGORY);
+    $responseCategory = array_column($response[KEY_ENTRIES], KEY_CATEGORY);
     $responseCategoryValue = array_keys($responseCategory,$category);
 
     if(count($responseCategoryValue) > 0){
@@ -59,7 +64,7 @@ function printOutput($category, $limit, $response){
 
         $entries = array();
         for($i = 0; $i<count($responseCategoryValue); $i++){
-            array_push($entries,$response[ENTRIES][$responseCategoryValue[$i]][API]);
+            array_push($entries,$response[KEY_ENTRIES][$responseCategoryValue[$i]][KEY_API]);
         }
 
         rsort($entries);
